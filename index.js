@@ -20,8 +20,6 @@ app.use(express.static(path.resolve(__dirname, 'staticServices')))
 app.use(express.static(path.resolve(__dirname, 'tracksFile')))
 app.use(fileUpload());
 app.use('/api', router)
-
-
 app.use(errorHandler)
 
 
