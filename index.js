@@ -1,6 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const sequelize = require('./db')
+const PORT = process.env.PORT
 const models = require('./models/models')
 const cors = require('cors')
 const fileUpload = require('express-fileupload')
@@ -21,19 +22,11 @@ app.use(fileUpload());
 app.use('/api', router)
 app.use(errorHandler)
 
-const PORT = process.env.PORT || 3030;
-
-const postgres = require('postgres');
-require('dotenv').config();
-
-const { PGHOST, PGDATABASE, PGUSER, PGPASSWORD, ENDPOINT_ID } = process.env;
-const URL = `postgres://${PGUSER}:${PGPASSWORD}@${PGHOST}/${PGDATABASE}?options=project%3D${ENDPOINT_ID}`;
-
-const SQL = postgres(URL, { ssl: 'require' });
-
 
 const start = async () => {
     try {
+        await sequelize.authenticate()
+        await sequelize.sync()
         app.listen(PORT, () => console.log(`Стартовал порт ${PORT}`))
     } catch (e) {
         console.log(e)
