@@ -1,7 +1,6 @@
 require('dotenv').config()
 const express = require('express')
 const sequelize = require('./db')
-const PORT = process.env.PORT
 const models = require('./models/models')
 const cors = require('cors')
 const fileUpload = require('express-fileupload')
@@ -21,6 +20,8 @@ app.use(express.static(path.resolve(__dirname, 'tracksFile')))
 app.use(fileUpload());
 app.use('/api', router)
 app.use(errorHandler)
+
+const PORT = process.env.PORT || 3030;
 
 
 const start = async () => {
